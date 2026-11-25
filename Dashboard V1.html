@@ -248,7 +248,14 @@ function updateClock(){
 
 setInterval(updateClock,1000);
 updateClock();
-
+navigator.geolocation.getCurrentPosition(
+  function(pos) {
+    alert("GPS disponible");
+  },
+  function(err) {
+    alert("GPS NO disponible: " + err.message);
+  }
+);
 </script>
 
 </body>
