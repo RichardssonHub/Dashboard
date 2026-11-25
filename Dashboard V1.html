@@ -277,6 +277,11 @@ navigator.geolocation.watchPosition(
 
   function(pos){
 
+      alert(
+  "speed=" + pos.coords.speed +
+  "\nheading=" + pos.coords.heading +
+  "\naltitude=" + pos.coords.altitude
+);
     const speed =
       pos.coords.speed;
 
