@@ -248,15 +248,95 @@ function updateClock(){
 
 setInterval(updateClock,1000);
 updateClock();
-navigator.geolocation.getCurrentPosition(
-  function(pos) {
-    alert("GPS disponible");
+
+const speedElement =
+  document.querySelectorAll(".gauge-value")[0];
+
+const courseElement =
+  document.querySelectorAll(".gauge-value")[1];
+
+const altitudeElement =
+  document.querySelectorAll(".gauge-value")[2];
+
+function headingToCardinal(heading) {
+
+  if (heading === null || isNaN(heading))
+    return "---";
+
+  const dirs = [
+    "N","NE","E","SE",
+    "S","SW","W","NW"
+  ];
+
+  return dirs[
+    Math.round(heading / 45) % 8
+  ];
+}
+
+navigator.geolocation.watchPosition(
+
+  function(pos){
+
+    const speed =
+      pos.coords.speed;
+
+    const heading =
+      pos.coords.heading;
+
+    const altitude =
+      pos.coords.altitude;
+
+    if(speed !== null){
+
+      const kmh =
+        Math.round(speed * 3.6);
+
+      speedElement.textContent =
+        kmh;
+
+    } else {
+
+      speedElement.textContent =
+        "---";
+    }
+
+    courseElement.textContent =
+      headingToCardinal(heading);
+
+    if(altitude !== null){
+
+      altitudeElement.textContent =
+        Math.round(altitude);
+
+    } else {
+
+      altitudeElement.textContent =
+        "---";
+    }
+
   },
-  function(err) {
-    alert("GPS NO disponible: " + err.message);
+
+  function(err){
+
+    speedElement.textContent =
+      "ERR";
+
+    courseElement.textContent =
+      "ERR";
+
+    altitudeElement.textContent =
+      "ERR";
+
+    console.log(err);
+
+  },
+
+  {
+    enableHighAccuracy:true,
+    maximumAge:1000,
+    timeout:10000
   }
-);
-</script>
+);</script>
 
 </body>
 </html>
