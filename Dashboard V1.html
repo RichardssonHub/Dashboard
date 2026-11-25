@@ -267,14 +267,15 @@ navigator.geolocation.getCurrentPosition(
 
   function(pos){
 
-    speedElement.textContent =
-      "GPS";
+    const kmh = Math.round((pos.coords.speed || 0) * 3.6);
 
-    courseElement.textContent =
-      "OK";
+speedElement.textContent = kmh;
 
-    altitudeElement.textContent =
-      Math.round(pos.coords.altitude || 0);
+courseElement.textContent =
+  Math.round(pos.coords.heading || 0);
+
+altitudeElement.textContent =
+  Math.round(pos.coords.altitude || 0);
 
   },
 
