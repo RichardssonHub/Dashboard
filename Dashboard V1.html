@@ -257,36 +257,151 @@ const speedElement = gauges[0];
 const courseElement = gauges[1];
 const altitudeElement = gauges[2];
 
-// PRUEBA VISUAL INMEDIATA
-speedElement.textContent = "111";
-courseElement.textContent = "NE";
-altitudeElement.textContent = "223";
+// GPS CALCULADO
 
-// PRUEBA GPS
-navigator.geolocation.getCurrentPosition(
+let lastLat = null;
+let lastLon = null;
+let lastTime = null;
 
-  function(pos){
+function degreesToCardinal(deg) {
 
-    speedElement.textContent =
-  String(pos.coords.speed);
+    if (deg === null || isNaN(deg))
+        return "---";
 
-courseElement.textContent =
-  String(pos.coords.heading);
+    const dirs = [
+        "N","NE","E","SE",
+        "S","SW","W","NW"
+    ];
 
-altitudeElement.textContent =
-  String(pos.coords.altitude);
+    return dirs[
+        Math.round(deg / 45) % 8
+    ];
+}
 
-  },
+function distanceMeters(lat1, lon1, lat2, lon2) {
 
-  function(err){
+    const R = 6371000;
 
-    speedElement.textContent = "ERR";
-    courseElement.textContent = "ERR";
-    altitudeElement.textContent = "ERR";
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
 
-  }
+    const a =
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+
+    const c = 2 * Math.atan2(
+        Math.sqrt(a),
+        Math.sqrt(1-a)
+    );
+
+    return R * c;
+}
+
+function bearing(lat1, lon1, lat2, lon2) {
+
+    const y =
+        Math.sin((lon2-lon1) * Math.PI/180) *
+        Math.cos(lat2 * Math.PI/180);
+
+    const x =
+        Math.cos(lat1 * Math.PI/180) *
+        Math.sin(lat2 * Math.PI/180) -
+        Math.sin(lat1 * Math.PI/180) *
+        Math.cos(lat2 * Math.PI/180) *
+        Math.cos((lon2-lon1) * Math.PI/180);
+
+    let brng =
+        Math.atan2(y,x) * 180 / Math.PI;
+
+    return (brng + 360) % 360;
+}
+
+navigator.geolocation.watchPosition(
+
+    function(pos){
+
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        const alt = pos.coords.altitude;
+
+        const now = Date.now();
+
+        if(
+            lastLat !== null &&
+            lastLon !== null &&
+            lastTime !== null
+        ){
+
+            const meters =
+                distanceMeters(
+                    lastLat,
+                    lastLon,
+                    lat,
+                    lon
+                );
+
+            const seconds =
+                (now - lastTime) / 1000;
+
+            if(seconds > 0){
+
+                const kmh =
+                    Math.round(
+                        (meters / seconds) * 3.6
+                    );
+
+                speedElement.textContent =
+                    kmh;
+            }
+
+            const deg =
+                bearing(
+                    lastLat,
+                    lastLon,
+                    lat,
+                    lon
+                );
+
+            courseElement.textContent =
+                degreesToCardinal(deg);
+        }
+
+        if(alt !== null){
+
+            altitudeElement.textContent =
+                Math.round(alt);
+
+        } else {
+
+            altitudeElement.textContent =
+                "---";
+        }
+
+        lastLat = lat;
+        lastLon = lon;
+        lastTime = now;
+
+    },
+
+    function(err){
+
+        speedElement.textContent = "ERR";
+        courseElement.textContent = "ERR";
+        altitudeElement.textContent = "ERR";
+
+    },
+
+    {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 10000
+    }
 
 );
+
+
 
 </script> 
     
