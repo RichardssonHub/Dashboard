@@ -565,18 +565,20 @@ updateTemperature(lat, lon);
    lastLat,lastLon,
    lat,lon
   );
+
+let kmh;
      
 if(dist < 5)
-    return;
+    kmh = 0;
+else
+    kmh = Math.round(
+      (dist/sec)*3.6
+    );
      
   const sec=
   (now-lastTime)/1000;
 
- let kmh =
-Math.round(
- (dist/sec)*3.6
-);
-
+ 
 speedBuffer.push(kmh);
 
 if(speedBuffer.length>5)
