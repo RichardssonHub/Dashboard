@@ -566,16 +566,14 @@ updateTemperature(lat, lon);
    lat,lon
   );
 
-let kmh
-    
-    kmh = Math.round(
+  const sec=
+  (now-lastTime)/1000;
+     
+let kmh =
+Math.round(
       (dist/sec)*3.6
     );
      
-  const sec=
-  (now-lastTime)/1000;
-
- 
 speedBuffer.push(kmh);
 
 if(speedBuffer.length>5)
