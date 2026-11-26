@@ -301,8 +301,8 @@ SMITHS
 <div class="panel">
 
 <div class="gauge">
-<div class="gauge-title">SPEED</div>
-<div class="gauge-value" id="speed">---</div>
+<div class="gauge-title">TEMP</div>
+<div class="gauge-value" id="temp">---</div>
 </div>
 
 <div class="gauge">
@@ -436,6 +436,11 @@ document.getElementById("course");
 
 const altitudeEl=
 document.getElementById("altitude");
+
+const tempEl=
+document.getElementById("temp");
+
+tempEl.textContent="--";   
 
 let lastLat=null;
 let lastLon=null;
