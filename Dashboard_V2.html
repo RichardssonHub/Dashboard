@@ -369,7 +369,8 @@ document.getElementById("altitude");
 let lastLat=null;
 let lastLon=null;
 let lastTime=null;
-
+let speedBuffer=[];
+    
 function bearing(lat1,lon1,lat2,lon2){
 
  const y=
@@ -462,21 +463,38 @@ function(pos){
   const sec=
   (now-lastTime)/1000;
 
-  const kmh=
-  Math.round(
-   (dist/sec)*3.6
-  );
+ let kmh =
+Math.round(
+ (dist/sec)*3.6
+);
+
+speedBuffer.push(kmh);
+
+if(speedBuffer.length>5)
+    speedBuffer.shift();
+
+kmh =
+Math.round(
+ speedBuffer.reduce(
+   (a,b)=>a+b,0
+ ) / speedBuffer.length
+);
+
 
   speedEl.textContent=
    kmh;
 
-  courseEl.textContent=
-   cardinal(
-    bearing(
-      lastLat,lastLon,
-      lat,lon
-    )
-   );
+if(kmh > 8){
+
+ courseEl.textContent=
+  cardinal(
+   bearing(
+    lastLat,lastLon,
+    lat,lon
+   )
+  );
+
+}
  }
 
  altitudeEl.textContent=
