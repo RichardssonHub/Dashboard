@@ -211,9 +211,6 @@ body{
 </head>
 <body>
 
-<button id="fullscreenBtn">
-FULL
-</button>
 
 <div class="main">
 
@@ -257,15 +254,9 @@ SMITHS
 
 </div>
 
+
+    
 <script>
-
-document
-.getElementById("fullscreenBtn")
-.onclick=()=>{
-
- if(document.documentElement.requestFullscreen)
-    document.documentElement.requestFullscreen();
-};
 
 const clock=
 document.getElementById("clock");
@@ -513,6 +504,29 @@ function(){
 
 );
 
+let lastTap = 0;
+
+document.addEventListener("touchend", () => {
+
+    const now = Date.now();
+
+    if (now - lastTap < 350) {
+
+        if (!document.fullscreenElement) {
+
+            document.documentElement.requestFullscreen();
+
+        } else {
+
+            document.exitFullscreen?.();
+
+        }
+    }
+
+    lastTap = now;
+
+});
+    
 </script>
 
 </body>
