@@ -566,11 +566,8 @@ updateTemperature(lat, lon);
    lat,lon
   );
 
-let kmh;
-     
-if(dist < 0)
-    kmh = 0;
-else
+let kmh
+    
     kmh = Math.round(
       (dist/sec)*3.6
     );
