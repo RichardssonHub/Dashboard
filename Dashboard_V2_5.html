@@ -422,9 +422,6 @@ document.getElementById("date");
 setInterval(updateClock,1000);
 updateClock();
 
-const speedEl=
-document.getElementById("speed");
-
 const tempEl=
 document.getElementById("temp"); 
     
@@ -439,9 +436,6 @@ document.getElementById("course");
 
 const altitudeEl=
 document.getElementById("altitude");
-
-const tempEl=
-document.getElementById("temp");
 
 tempEl.textContent="--";   
 
@@ -596,10 +590,7 @@ Math.round(
 );
 
 
-  speedEl.textContent=
-   kmh;
-
-speedBig.textContent=
+ speedBig.textContent=
    kmh;
 
 const angle =
@@ -634,7 +625,7 @@ if(kmh > 8){
 
 function(){
 
- speedEl.textContent="ERR";
+ tempEl.textContent="ERR";
  courseEl.textContent="ERR";
  altitudeEl.textContent="ERR";
 },
