@@ -530,7 +530,10 @@ function(pos){
    lastLat,lastLon,
    lat,lon
   );
-
+     
+if(dist < 5)
+    return;
+     
   const sec=
   (now-lastTime)/1000;
 
