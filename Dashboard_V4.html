@@ -318,6 +318,7 @@ box-shadow:
 
     transform-origin:
       center 140px;
+     z-index:10;
 }
 
 .speed-label{
@@ -330,6 +331,8 @@ box-shadow:
     font-size:14px;
 
     color:#d8cfb5;
+
+    z-index:15;
 }
 
 </style>
@@ -494,7 +497,7 @@ for(let n=1;n<=12;n++){
     const angle=
     (n-3)*30*Math.PI/180;
 
-    const r=40;
+    const r=36;
 
     div.style.left=
       (50+r*Math.cos(angle))
