@@ -196,10 +196,10 @@ box-shadow:
     grid-template-columns:
         repeat(3,1fr);
 
-    gap:20px;
+    gap:12px;
 
-    margin-top:20px;
-    margin-bottom:20px;
+    margin-top:8px;
+    margin-bottom:4px;
 }
 
 .gauge{
@@ -216,7 +216,7 @@ box-shadow:
     box-shadow:
       0 0 15px rgba(255,180,50,.06);
 
-    padding:4px;
+    padding:2px;
 }
 
 .gauge-title{
@@ -226,7 +226,7 @@ box-shadow:
 }
 
 .gauge-value{
-    font-size:26px;
+    font-size:22px;
     color:#eadfc0;
 }
 
@@ -668,10 +668,10 @@ let kmh =
 Math.round(
       (dist/sec)*3.6
     );
-     
+  
 speedBuffer.push(kmh);
 
-if(speedBuffer.length>5)
+if(speedBuffer.length>3)
     speedBuffer.shift();
 
 kmh =
@@ -681,6 +681,8 @@ Math.round(
  ) / speedBuffer.length
 );
 
+if(kmh < 3)
+kmh = 0;
 
  speedBig.textContent=
    kmh;
@@ -692,7 +694,7 @@ currentNeedleAngle +=
 (
  targetAngle -
  currentNeedleAngle
-) * 0.15;
+) * 0.35;
 
 speedNeedle.style.transform =
    `rotate(${currentNeedleAngle}deg)`;
