@@ -75,14 +75,38 @@ body{
         #080808 100%
     );
 
-    border:10px solid #d6d6d6;
+   border:12px solid #cfcfcf;
+
+    outline:1px solid #f2f2f2;
 
 box-shadow:
-    0 0 25px rgba(255,170,60,.10),
-    inset 0 0 30px rgba(255,255,255,.05),
-    0 3px 12px rgba(0,0,0,.8);
+ inset 0 0 4px rgba(255,255,255,.25),
+ inset 0 0 1px rgba(0,0,0,.8),
+ 0 4px 14px rgba(0,0,0,.8),
+ 0 0 25px rgba(255,170,60,.08);
 }
 
+.glass{
+
+    position:absolute;
+
+    inset:12px;
+
+    border-radius:50%;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(255,255,255,.18),
+        rgba(255,255,255,0)
+        35%
+      );
+
+    pointer-events:none;
+
+    z-index:25;
+}
+    
 .marker{
     position:absolute;
     left:50%;
@@ -177,16 +201,28 @@ box-shadow:
 }
 
 .center{
+
     position:absolute;
+
     width:18px;
     height:18px;
-    background:#ddd;
+
+    background:
+    radial-gradient(
+        circle,
+        #f5f5f5 0%,
+        #b0b0b0 70%,
+        #666666 100%
+    );
+
     border-radius:50%;
+
     left:50%;
     top:50%;
+
     transform:translate(-50%,-50%);
-    z-index:30;
 }
+
 
 .panel{
 
@@ -309,6 +345,8 @@ box-shadow:
 
 <div class="clock"></div>
 
+<div class="glass"></div>
+    
 <div class="brand">
 KM/H
 </div>
@@ -328,6 +366,8 @@ KM/H
 
 <div class="clock" id="clock"></div>
 
+<div class="glass"></div>
+    
 <div class="brand">
 SMITHS
 </div>
